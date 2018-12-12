@@ -9,44 +9,23 @@ html {
 
 .container {
 	max-width: 960px;
+	min-width: 500px;
 }
-
-.pricing-header {
-	max-width: 700px;
-}
-
-.card {
-	/* min-width: 300px; */
-	width: 220px;
-}
-
-/* /////// */
-/* /////// */
-/* /////// */
-
 
 body {
     text-align: center; 
-	font-family: 'Lora', serif;
 }
 
 #content {
+	width: 40%;
     margin: 0 auto;
     max-width: 950px;
     text-align: left;
 }
 
-h1, h2, h3 {
-	font-family: 'Parisienne', cursive;
-	text-align: center;
-}
 
 /*************************./
 /* Control Panel Styling */
-input,label {
-	font-family: 'Lora', serif;
-}
-
 div.feature {
 	clear: left;
 	padding-bottom: 5px;
@@ -58,7 +37,6 @@ div.feature {
 }
 
 #control-panel-content {
-	font-family: 'Parisienne', cursive;
 	padding: 10px 5px 8px 5px;
 }
 
@@ -69,7 +47,7 @@ div.feature {
 
 div.room h3 {
 	margin: 0px;
-	padding: 10px 0px 2px 20px;
+	padding: 10px 0px 2px 0px;
 	text-align: left;
 }
 
@@ -87,11 +65,11 @@ input.integer {
 	margin: 0px 0px 0px 8px;
 	padding: 0px;
     text-align: right;
-    width: 50px;
 }
 
 /*************************./
 /* SVG STYLING */
-/* object.home-map {
-	width: 700px;
-} */
+#svg-container {
+	width: 60%; 
+	max-width: 700px
+}

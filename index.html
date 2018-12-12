@@ -15,8 +15,7 @@
     <script src="scripts/home-automation.js"></script>
     <script src="scripts/controls.js"></script>
 
-    <!-- todo: remove style.css -->
-    <!-- <link href="style/style.css" rel="stylesheet" type="text/css"> -->
+    <link href="style/style.css" rel="stylesheet" type="text/css">
 
     <title>Home Automation</title>
 </head>
@@ -33,25 +32,25 @@
         </nav>
         <a class="btn btn-outline-primary" href="#">Sign out</a>
     </div>
+
     <div class="container" style='display: flex; min-width: 500'>
 
         <!-- Control panel section -->
-        <div style='width: 40%; '>
-            <div id="content">
-                <div id="control-panel">
-                    <h2>Control Panel</h2>
-                    <!-- this container will be filled with the home automation controls -->
-                    <div id="control-panel-content"></div>
-                </div>
+        <div id="content">
+            <div id="control-panel">
+                <h2>Control Panel</h2>
+                <!-- this container will be filled with the home automation controls -->
+                <div id="control-panel-content"></div>
             </div>
         </div>
 
         <!-- House SVG - For now this is hard-coded but in a real environment this would need to be loaded dynamically per house  -->
-        <div id='svg-container' style="width: 60%; max-width: 700px">
+        <div id='svg-container'>
             <!-- https://en.m.wikipedia.org/wiki/File:Little_White_House_floor_plan.svg -->
             <object type="image/svg+xml" data="images/Little_White_House_floor_plan.svg" class="home-map" style="background: rgb(255, 255, 255, .5)"
                 id="home-map">Your browser does not support SVG</object>
         </div>
+
     </div>
 </body>
 
