@@ -1,23 +1,5 @@
 {
 	"comment": "Home Description JSON. A static file for now; can be changed to a DB driven file in future. Supported Feature Data Types: Boolean, Integer",
-	"feature-types": {
-		"curtain": {
-			"name": "Curtains",
-			"controller": "curtain"
-		},
-		"light": {
-			"name": "Lights",
-			"controller": "lights"
-		},
-		"temp": {
-			"name": "Temperature",
-			"controller": "temp"
-		},
-		"roomPicker": {
-			"name": "Picker",
-			"controller": "rooms"
-		}
-	},
 	"home": {
 		"name": "Just Another Home",
 		"features": {
@@ -25,13 +7,13 @@
 				"name": "Temperature",
 				"element-id": "home-map",
 				"description": "Control the temperature of the home (Fahrenheit)",
-				"feature-type": "temp",
+				"controller": "temp",
 				"current-value": 68
 			},
 			"room": {
-				"name": "Room Picker",
-				"description": "Choose a room you want to control",
-				"feature-type": "roomPicker",
+				"name": "Rooms",
+				"description": "List of rooms in the house along with their ID",
+				"controller": "rooms",
 				"current-value": [
 					{ "displayName": "Entrance Hall", "id": "entrance-hall" },
 					{ "displayName": "Living Room", "id": "living-room" },

@@ -6,18 +6,18 @@
  * save - calls the API to save changes to the controller
  */
 
- const ControlsEnum = {
+const ControlsEnum = {
 	RoomsSelector: 'rooms',
 	Temp: 'temp',
-	Light: 'lights',
+	Light: 'light',
 	Curtain: 'curtain',
- }
+}
 
-class RoomsSelector  {
+class RoomsSelector {
 	constructor(elementId) {
 		this.elementId = elementId;
 	};
-	getTemplate(featureType, features) {
+	getTemplate(features) {
 		var html = `<select id="` + this.elementId + `">
 			<option value="">Choose Room</option>`;
 		features["current-value"].forEach((room) => {
@@ -36,12 +36,10 @@ class RoomsSelector  {
 		// todo: this.$doc.trigger( "update-room", [$name.text(), newRoom] );
 		// get the room features from the API
 		$.get('API/homes/whitehouse/rooms/' + controlValue + '.json', (room) => {
-			var roomHTML = '';
-			var roomID = homeID + idDelimiter + controlValue;
-			// use a div & h3 heading for styling
-			roomHTML += '<div id="' + roomID + '" class="room"><h3>' + room.name + '</h3>';
-			roomHTML += featureControlsHTML(featureTypes, room.features, roomID);
-			roomHTML += '</div>';
+			var roomID = homeID + '_' + controlValue;
+			var roomHTML = `<div id="` + roomID + `" class="room">
+				<h3>` + room.name + `</h3>` + featureControlsHTML(room.features, roomID) + `
+				</div>`;
 
 			$('#' + containerID).append(roomHTML);
 			// listen for changes on the added room
@@ -53,29 +51,31 @@ class RoomsSelector  {
 	};
 }
 
-class Light  {
-	constructor(roomId, elementId) {
+class Light {
+	constructor(light, roomId, elementId, room) {
 		this.elementId = elementId;
 		this.roomId = roomId;
-		this.svgId = 'g-' + elementId;
+		this.room = room;
+		this.light = light;
+		this.svgId = 'g-' + roomId;
 	};
-	getTemplate (featureType, feature) {
-		var checked = feature['current-value'] === 'On'	? ' checked="checked" ' : '';
-		return `<label class="switch"><input type="checkbox" id="` + this.elementId + `" class="boolean" value="` + featureType['true-value'] + `" ` + checked + `/><span class="slider"></span></label>
-			<label for="` + this.elementId + `">` + feature.name + ` - On</label>`;
+	getTemplate() {
+		var checked = this.light['current-value'] === 'On' ? ' checked="checked" ' : '';
+		return `<input type="checkbox" id="` + this.elementId + `" value="` + this.light['current-value'] + `" ` + checked + `/>
+			<label for="` + this.elementId + `">` + this.light.name + ` - On</label>`;
 	};
 	getValue() {
 		return $('#' + this.elementId).prop('checked') ? 'On' : 'Off';
 	};
-	updateHouse(feature) {
+	updateHouse() {
 		var svgElement = document.getElementById('home-map').contentDocument.getElementById(this.svgId);
 		updateLight(svgElement, this.getValue());
 	};
-	save(feature) {
+	save() {
 		// call API to update room with the changes
 		$.post('API/homes/whitehouse/rooms/' + this.roomId + '.json', {
-			light: feature.name,
-			value: controlValue
+			light: this.room.name,
+			value: this.getValue()
 		}).done(function (data) {
 			if (data.success === false) {
 				alert("Error saving adjustment: " + data.success);
@@ -84,17 +84,19 @@ class Light  {
 	}
 }
 
-class Curtain  {
-	constructor(roomId, elementId) {
+class Curtain {
+	constructor(curtain, roomId, elementId, room) {
 		this.elementId = elementId;
 		this.roomId = roomId;
-		this.svgId = 'g-' + elementId;
+		this.room = room;
+		this.curtain = curtain;
+		this.svgId = 'g-' + roomId;
 	};
-	getTemplate (featureType, feature) {
-		var checked = feature['current-value'] === 'Closed'	? ' checked="checked" ' : '';
-		return `<label class="switch"><input type="checkbox" id="` + this.elementId + `" class="boolean" value="` + featureType['true-value'] + `" ` + checked + `/><span class="slider"></span></label>
-			<label for="` + this.elementId + `">` + feature.name + ` - Drawn</label>`;
-	};	
+	getTemplate() {
+		var checked = this.curtain['current-value'] === 'Closed' ? ' checked="checked" ' : '';
+		return `<input type="checkbox" id="` + this.elementId + `" class="boolean" value="` + this.curtain['current-value'] + `" ` + checked + `/>
+			<label for="` + this.elementId + `">` + this.curtain.name + ` - Drawn</label>`;
+	};
 	getValue() {
 		return $('#' + this.elementId).prop('checked') ? 'Closed' : 'Open';
 	};
@@ -102,12 +104,12 @@ class Curtain  {
 		var svgElement = document.getElementById('home-map').contentDocument.getElementById(this.svgId);
 		updateCurtains(svgElement, this.getValue());
 	};
-	save(feature) {
+	save() {
 		this.updateHouse();
 		// call API to update room with the changes
 		$.post('API/homes/whitehouse/rooms/' + this.roomId + '.json', {
-			curtain: feature.name,
-			value: controlValue
+			curtain: this.room.name,
+			value: this.getValue()
 		}).done(function (data) {
 			if (data.success === false) {
 				alert("Error saving adjustment: " + data.success);
@@ -116,18 +118,18 @@ class Curtain  {
 	};
 }
 
-class Temp  {
+class Temp {
 	constructor(elementId) {
 		this.elementId = elementId;
 		this.svgId = 'home-map';
 	};
-	getTemplate (featureType, feature) {
+	getTemplate(feature) {
 		return `<label for="` + this.elementId + `" class="integer"> ` + feature.name + `:
 				<span id="` + this.elementId + `-temp" style="padding: 5px">` + feature[`current-value`] + `&#8457; </span>
 			</label>
 			<input type="range" class="integer" min="60" max="80"
 				id="` + this.elementId + `" value="` + feature[`current-value`] + `" />`;
-	};	
+	};
 	getValue() {
 		return $('#' + this.elementId).val();
 	}

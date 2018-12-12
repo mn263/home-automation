@@ -4,12 +4,12 @@
         "features": {
             "light": {
                 "name": "Hall Light",
-                "feature-type": "light",
+                "controller": "light",
                 "current-value": "On"
             },
             "curtains": {
                 "name": "Front Curtains",
-                "feature-type": "curtain",
+                "controller": "curtain",
                 "current-value": "Closed"
             }
         }
@@ -19,12 +19,12 @@
         "features": {
             "overhead-light": {
                 "name": "Overhead Light",
-                "feature-type": "light",
+                "controller": "light",
                 "current-value": "On"
             },
             "curtains": {
                 "name": "Curtains",
-                "feature-type": "curtain",
+                "controller": "curtain",
                 "current-value": "Open"
             }
         }
@@ -34,12 +34,12 @@
         "features": {
             "overhead-light": {
                 "name": "Overhead Light",
-                "feature-type": "light",
+                "controller": "light",
                 "current-value": "On"
             },
             "curtains": {
                 "name": "Over-Sink Curtains",
-                "feature-type": "curtain",
+                "controller": "curtain",
                 "current-value": "Open"
             }
         }
@@ -49,7 +49,7 @@
         "features": {
             "overhead-light": {
                 "name": "Overhead Light",
-                "feature-type": "light",
+                "controller": "light",
                 "current-value": "Off"
             }
         }
@@ -59,12 +59,12 @@
         "features": {
             "bedside-lamp": {
                 "name": "Bedside Lamp",
-                "feature-type": "light",
+                "controller": "light",
                 "current-value": "Off"
             },
             "curtains": {
                 "name": "Blackout Curtains",
-                "feature-type": "curtain",
+                "controller": "curtain",
                 "current-value": "Closed"
             }
         }
@@ -74,17 +74,17 @@
         "features": {
             "bedside-lamp": {
                 "name": "Bedside Lamp",
-                "feature-type": "light",
+                "controller": "light",
                 "current-value": "Off"
             },
             "front-curtains": {
                 "name": "Front Curtains",
-                "feature-type": "curtain",
+                "controller": "curtain",
                 "current-value": "Closed"
             },
             "side-curtains": {
                 "name": "Side Curtains",
-                "feature-type": "curtain",
+                "controller": "curtain",
                 "current-value": "Closed"
             }
         }
@@ -94,12 +94,12 @@
         "features": {
             "bedside-lamp": {
                 "name": "Bedside Lamp",
-                "feature-type": "light",
+                "controller": "light",
                 "current-value": "Off"
             },
             "curtains": {
                 "name": "Blackout Curtains",
-                "feature-type": "curtain",
+                "controller": "curtain",
                 "current-value": "Closed"
             }
         }

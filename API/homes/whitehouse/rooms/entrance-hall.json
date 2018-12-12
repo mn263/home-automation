@@ -3,12 +3,12 @@
     "features": {
         "light": {
             "name": "Hall Light",
-            "feature-type": "light",
+            "controller": "light",
             "current-value": "On"
         },
         "curtains": {
             "name": "Front Curtains",
-            "feature-type": "curtain",
+            "controller": "curtain",
             "current-value": "Closed"
         }
     }

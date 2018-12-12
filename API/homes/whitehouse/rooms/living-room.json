@@ -3,12 +3,12 @@
     "features": {
         "overhead-light": {
             "name": "Overhead Light",
-            "feature-type": "light",
+            "controller": "light",
             "current-value": "On"
         },
         "curtains": {
             "name": "Curtains",
-            "feature-type": "curtain",
+            "controller": "curtain",
             "current-value": "Open"
         }
     }

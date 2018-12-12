@@ -3,17 +3,17 @@
     "features": {
         "bedside-lamp": {
             "name": "Bedside Lamp",
-            "feature-type": "light",
+            "controller": "light",
             "current-value": "Off"
         },
         "front-curtains": {
             "name": "Front Curtains",
-            "feature-type": "curtain",
+            "controller": "curtain",
             "current-value": "Closed"
         },
         "side-curtains": {
             "name": "Side Curtains",
-            "feature-type": "curtain",
+            "controller": "curtain",
             "current-value": "Closed"
         }
     }

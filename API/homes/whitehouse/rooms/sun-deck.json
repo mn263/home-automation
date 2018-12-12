@@ -3,7 +3,7 @@
     "features": {
         "overhead-light": {
             "name": "Overhead Light",
-            "feature-type": "light",
+            "controller": "light",
             "current-value": "Off"
         }
     }
