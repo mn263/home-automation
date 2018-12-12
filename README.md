@@ -18,7 +18,7 @@ Attributions/References
 
 3.  Clone this repo: 
 
-        git clone https://github.com/todo.git
+        git clone https://github.com/mn263/home-automation.git
 
 4.  Change directory to the top-level project folder and install project dependencies:
 
