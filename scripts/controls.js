@@ -53,12 +53,12 @@ class RoomsSelector {
 			let roomID = homeID + '_' + controlValue;
 			let roomHTML = `<div id="${roomID}" class="room">
 					<h3>${room.name}</h3>
-					${featureControlsHTML(room.features, roomID)}
+					${parseFeatureControls(room.features, roomID)}
 				</div>`;
 
 			$('#' + containerID).append(roomHTML);
 			// add a listener for changes to the control on the container element
-			$('#' + containerID + ' input').change(updateFeature);
+			$('#' + containerID + ' input').change(handleControlChange);
 		}, 'json');
 	};
 

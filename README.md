@@ -1,32 +1,30 @@
-# Build your first Polymer element
+# JavaScript application simulating house automation
 
-This repo goes with the [Build your first Polymer element tutorial](https://en.m.wikipedia.org/wiki/File:Little_White_House_floor_plan.svg).
+Attributions/References
+[Little_White_House_floor_plan.svg](https://en.m.wikipedia.org/wiki/File:Little_White_House_floor_plan.svg)
+[Just-Another-Automated-Home](https://github.com/marybeshaw/Just-Another-Automated-Home)
 
 ## Running the tutorial code
 
-1.  Install pre-requisites for Polymer CLI (git, npm, Node.js). 
+1.  Install pre-requisites install npm, gulp. 
 
-    [Full instructions are on the Polymer website.](https://www.polymer-project.org/3.0/docs/tools/polymer-cli).
+    [Instructions on starting with Gulp.](https://gulpjs.org/getting-started.html).
 
-2.  Install Polymer CLI:
+2.  Install gulp-serve:
 
-        npm install -g polymer-cli@next
+        npm install gulp-serve
 
-    [Full instructions are on the Polymer website.](https://www.polymer-project.org/3.0/docs/tools/polymer-cli).
+    [Gulp-serve documentation.](https://www.npmjs.com/package/gulp-serve).
 
 3.  Clone this repo: 
 
-        git clone https://github.com/PolymerLabs/polymer-3-first-element.git
+        git clone https://github.com/todo.git
 
 4.  Change directory to the top-level project folder and install project dependencies:
 
         cd polymer-3-first-element
         npm install
         
-5.  To preview your element, run the Polymer development server from the top-level project folder:
+5.  To preview run the gulp server from the top-level project folder:
 
-        polymer serve --open
-
-## Next steps
-
-Follow the [Build your first Polymer element tutorial](https://www.polymer-project.org/3.0/start/first-element/intro) to get started with Polymer.
+        gulp serve

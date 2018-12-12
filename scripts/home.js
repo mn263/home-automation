@@ -2,7 +2,7 @@
 
 /**
  * @file contains logic to get API data and use that data to generate the control panel
- * It has a method (updateFeature) called by updates to any control where you can listen for specific events
+ * It has a method (handleControlChange) called by updates to any control where you can listen for specific events
  * 
  */
 
@@ -50,7 +50,7 @@ $('#home-map').context.addEventListener('load', function () {
  * Fetches the house object from the 'API' and builds the control panel
  * 
  * Adds the controls to the container element which we listen to for events on any of the controls
- * When any control is updated we call updateFeature - If you want to listen for any event that is we you'll add the logic
+ * When any control is updated we call handleControlChange - If you want to listen for any event that is we you'll add the logic
  * 
  * @listens input - triggered when a control with an 'input' element changes
  * @listens select - triggered when a control with a 'select' element changes
@@ -59,11 +59,11 @@ function initControlPanel() {
     $.get('API/homes/whitehouse/house.json', function (data) {
         // use home object to initialize the control panel - get's rooms, temp, etc.
         let homeData = data.home;
-        let controlsHTML = '<div id="home">' + featureControlsHTML(homeData.features, homeID) + '</div>';
+        let controlsHTML = '<div id="home">' + parseFeatureControls(homeData.features, homeID) + '</div>';
         $('#' + containerID).append(controlsHTML);
         // add the "update feature" listener to control panel
-        $('#' + containerID + ' input').change(updateFeature);
-        $('#' + containerID + ' select').change(updateFeature);
+        $('#' + containerID + ' input').change(handleControlChange);
+        $('#' + containerID + ' select').change(handleControlChange);
     }, 'json');
 };
 
@@ -87,11 +87,11 @@ function handleRoomClick(element, controllerId) {
  * 
  * @returns {string} html - The combined HTML of all the controls created for the given featureList
  */
-function featureControlsHTML(featureList, parentID) {
+function parseFeatureControls(featureList, parentID) {
     let html = '';
     $.each(featureList, function (index, element) {
         let elementId = parentID + '_' + index;
-        html += featureControlHTML(element, elementId, parentID.split('_').pop());
+        html += createControl(element, elementId, parentID.split('_').pop());
     });
 
     return html;
@@ -106,7 +106,7 @@ function featureControlsHTML(featureList, parentID) {
  * 
  * @returns {string} html - The HTML of the control that was created or an empty string in the case that a control was not created
  */
-function featureControlHTML(feature, elementId, roomId) {
+function createControl(feature, elementId, roomId) {
     let controller;
     let html = '<div class="feature">';
     switch (feature.controller) {
@@ -142,7 +142,7 @@ function featureControlHTML(feature, elementId, roomId) {
  * 
  * @param str Defines the Event triggered the function call 
  */
-function updateFeature(str) {
+function handleControlChange(str) {
     if (controllerMap.has(this.id)) {
         let controller = controllerMap.get(this.id);
         controller.updateHouse();
