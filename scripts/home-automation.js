@@ -1,9 +1,16 @@
 "use strict";
 
-// In a production site we would use caching and polling of data
+/**
+ * @file contains logic to get API data and use that data to generate the control panel
+ * It has a method (updateFeature) called by updates to any control where you can listen for specific events
+ * 
+ */
+
+// In a production site we would use caching and polling of data instead simple object
 let Rooms = {};
-// used to map element IDs to controllers
+// controllerMap is used to map element IDs to controllers
 let controllerMap = new Map();
+
 const homeID = 'home';
 const containerID = 'control-panel-content';
 
@@ -14,6 +21,8 @@ $.getScript("scripts/controls.js").done(function (script, textStatus) {
 /**
  * Once the House SVG has loaded we get the rooms in the house and
  * update the SVG colors to match the status of the lights/curtains
+ * 
+ * @listens Load - function is triggered when the house SVG loads
  */
 $('#home-map').context.addEventListener('load', function () {
     if (!document.getElementById('home-map')) return;
@@ -42,6 +51,9 @@ $('#home-map').context.addEventListener('load', function () {
  * 
  * Adds the controls to the container element which we listen to for events on any of the controls
  * When any control is updated we call updateFeature - If you want to listen for any event that is we you'll add the logic
+ * 
+ * @listens input - triggered when a control with an 'input' element changes
+ * @listens select - triggered when a control with a 'select' element changes
  */
 function initControlPanel() {
     $.get('API/homes/whitehouse/house.json', function (data) {
@@ -77,7 +89,6 @@ function handleRoomClick(element, controllerId) {
  */
 function featureControlsHTML(featureList, parentID) {
     let html = '';
-    // load an array of features - child of either the overall home or one room
     $.each(featureList, function (index, element) {
         let elementId = parentID + '_' + index;
         html += featureControlHTML(element, elementId, parentID.split('_').pop());
