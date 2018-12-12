@@ -1,0 +1,16 @@
+{
+    "name": "Third Bedroom",
+    "svg-id": "g-third-bedroom",
+    "features": {
+        "bedside-lamp": {
+            "name": "Bedside Lamp",
+            "feature-type": "light",
+            "current-value": "Off"
+        },
+        "curtains": {
+            "name": "Blackout Curtains",
+            "feature-type": "curtain",
+            "current-value": "Closed"
+        }
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "name": "Kitchen",
+    "svg-id": "g-kitchen",
+    "features": {
+        "overhead-light": {
+            "name": "Overhead Light",
+            "feature-type": "light",
+            "current-value": "On"
+        },
+        "curtains": {
+            "name": "Over-Sink Curtains",
+            "feature-type": "curtain",
+            "current-value": "Open"
+        }
+    }
+}

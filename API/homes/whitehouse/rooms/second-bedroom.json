@@ -1,0 +1,21 @@
+{
+    "name": "Second Bedroom",
+    "svg-id": "g-second-bedroom",
+    "features": {
+        "bedside-lamp": {
+            "name": "Bedside Lamp",
+            "feature-type": "light",
+            "current-value": "Off"
+        },
+        "front-curtains": {
+            "name": "Front Curtains",
+            "feature-type": "curtain",
+            "current-value": "Closed"
+        },
+        "side-curtains": {
+            "name": "Side Curtains",
+            "feature-type": "curtain",
+            "current-value": "Closed"
+        }
+    }
+}

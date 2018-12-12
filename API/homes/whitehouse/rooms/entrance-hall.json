@@ -1,0 +1,16 @@
+{
+    "name": "Entrance Hall",
+    "svg-id": "g-entrance-hall",
+    "features": {
+        "light": {
+            "name": "Hall Light",
+            "feature-type": "light",
+            "current-value": "On"
+        },
+        "curtains": {
+            "name": "Front Curtains",
+            "feature-type": "curtain",
+            "current-value": "Closed"
+        }
+    }
+}

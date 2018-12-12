@@ -1,0 +1,16 @@
+{
+    "name": "Living Room",
+    "svg-id": "g-living-room",
+    "features": {
+        "overhead-light": {
+            "name": "Overhead Light",
+            "feature-type": "light",
+            "current-value": "On"
+        },
+        "curtains": {
+            "name": "Curtains",
+            "feature-type": "curtain",
+            "current-value": "Open"
+        }
+    }
+}

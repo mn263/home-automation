@@ -1,0 +1,114 @@
+{
+    "entrance-hall": {
+        "name": "Entrance Hall",
+        "svg-id": "g-entrance-hall",
+        "features": {
+            "light": {
+                "name": "Hall Light",
+                "feature-type": "light",
+                "current-value": "On"
+            },
+            "curtains": {
+                "name": "Front Curtains",
+                "feature-type": "curtain",
+                "current-value": "Closed"
+            }
+        }
+    },
+    "living-room": {
+        "name": "Living Room",
+        "svg-id": "g-living-room",
+        "features": {
+            "overhead-light": {
+                "name": "Overhead Light",
+                "feature-type": "light",
+                "current-value": "On"
+            },
+            "curtains": {
+                "name": "Curtains",
+                "feature-type": "curtain",
+                "current-value": "Open"
+            }
+        }
+    },
+    "kitchen": {
+        "name": "Kitchen",
+        "svg-id": "g-kitchen",
+        "features": {
+            "overhead-light": {
+                "name": "Overhead Light",
+                "feature-type": "light",
+                "current-value": "On"
+            },
+            "curtains": {
+                "name": "Over-Sink Curtains",
+                "feature-type": "curtain",
+                "current-value": "Open"
+            }
+        }
+    },
+    "sun-deck": {
+        "name": "Sun Deck",
+        "svg-id": "g-sun-deck",
+        "features": {
+            "overhead-light": {
+                "name": "Overhead Light",
+                "feature-type": "light",
+                "current-value": "Off"
+            }
+        }
+    },
+    "master-bedroom": {
+        "name": "Master Bedroom",
+        "svg-id": "g-master-bedroom",
+        "features": {
+            "bedside-lamp": {
+                "name": "Bedside Lamp",
+                "feature-type": "light",
+                "current-value": "Off"
+            },
+            "curtains": {
+                "name": "Blackout Curtains",
+                "feature-type": "curtain",
+                "current-value": "Closed"
+            }
+        }
+    },
+    "second-bedroom": {
+        "name": "Second Bedroom",
+        "svg-id": "g-second-bedroom",
+        "features": {
+            "bedside-lamp": {
+                "name": "Bedside Lamp",
+                "feature-type": "light",
+                "current-value": "Off"
+            },
+            "front-curtains": {
+                "name": "Front Curtains",
+                "feature-type": "curtain",
+                "current-value": "Closed"
+            },
+            "side-curtains": {
+                "name": "Side Curtains",
+                "feature-type": "curtain",
+                "current-value": "Closed"
+            }
+        }
+    }, 
+    "third-bedroom": {
+        "name": "Third Bedroom",
+        "svg-id": "g-third-bedroom",
+        "features": {
+            "bedside-lamp": {
+                "name": "Bedside Lamp",
+                "feature-type": "light",
+                "current-value": "Off"
+            },
+            "curtains": {
+                "name": "Blackout Curtains",
+                "feature-type": "curtain",
+                "current-value": "Closed"
+            }
+        }
+    }
+}	

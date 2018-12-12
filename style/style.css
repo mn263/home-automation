@@ -1,0 +1,97 @@
+html {
+	font-size: 14px;
+}
+@media (min-width: 768px) {
+	html {
+		font-size: 16px;
+	}
+}
+
+.container {
+	max-width: 960px;
+}
+
+.pricing-header {
+	max-width: 700px;
+}
+
+.card {
+	/* min-width: 300px; */
+	width: 220px;
+}
+
+/* /////// */
+/* /////// */
+/* /////// */
+
+
+body {
+    text-align: center; 
+	font-family: 'Lora', serif;
+}
+
+#content {
+    margin: 0 auto;
+    max-width: 950px;
+    text-align: left;
+}
+
+h1, h2, h3 {
+	font-family: 'Parisienne', cursive;
+	text-align: center;
+}
+
+/*************************./
+/* Control Panel Styling */
+input,label {
+	font-family: 'Lora', serif;
+}
+
+div.feature {
+	clear: left;
+	padding-bottom: 5px;
+	overflow: auto;
+}
+
+#control-panel {
+	float: left;
+}
+
+#control-panel-content {
+	font-family: 'Parisienne', cursive;
+	padding: 10px 5px 8px 5px;
+}
+
+#control-panel h2 {
+	padding: 0px;
+	margin: 0px;
+}
+
+div.room h3 {
+	margin: 0px;
+	padding: 10px 0px 2px 20px;
+	text-align: left;
+}
+
+div.feature input.boolean {
+	clear: left;
+	float:left;
+}
+
+div.feature label.boolean {
+	float:left;
+	padding-left: 5px;
+}	
+
+input.integer {
+	margin: 0px 0px 0px 8px;
+	padding: 0px;
+    text-align: right;
+    width: 50px;
+}
+
+/*************************./
+/* SVG STYLING */
+/* object.home-map {
+	width: 700px;
+} */
