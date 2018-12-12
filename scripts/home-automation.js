@@ -1,111 +1,112 @@
-// Set up home framework
-// In a production site we would use real caching of data
-var RoomsCache = {};
-var HomeCache = {};
+"use strict";
+
+// In a production site we would use caching and polling of data
+let Rooms = {};
 // used to map element IDs to controllers
-var controllerMap = new Map();
+let controllerMap = new Map();
 const homeID = 'home';
 const containerID = 'control-panel-content';
 
-$.getScript("scripts/controls.js")
-    .done(function (script, textStatus) {
-        initHomeData();
-    });
+$.getScript("scripts/controls.js").done(function (script, textStatus) {
+    initControlPanel();
+});
 
+/**
+ * Once the House SVG has loaded we get the rooms in the house and
+ * update the SVG colors to match the status of the lights/curtains
+ */
 $('#home-map').context.addEventListener('load', function () {
     if (!document.getElementById('home-map')) return;
-    updateMapToReflectRoomStatuses();
-}, true);
-
-var initHomeData = function () {
-    'use strict';
-
-    $.get('API/homes/whitehouse/home.json', function (data) {
-        HomeCache = data[homeID];
-        initControlPanel(data.home);
-    }, 'json');
-};
-
-function updateMapToReflectRoomStatuses() {
+    // get the rooms data and update SVG to match values from API
     $.get('API/homes/whitehouse/rooms.json', function (rooms) {
-        RoomsCache = rooms;
-        for (var roomIndex in rooms) {
-            var room = rooms[roomIndex];
-            var features = room.features;
-            if (!features) continue;
-            for (var featureIndex in features) {
-                var feature = features[featureIndex];
-                var doc = document.getElementById('home-map').contentDocument;
-                var svgElement = doc.getElementById('g-' + roomIndex);
-
-                if (feature['controller'] === 'light') {
-                    updateLight(svgElement, feature['current-value']);
-                } else if (feature['controller'] === 'curtain') {
-                    updateCurtains(svgElement, feature['current-value']);
+        Rooms = rooms;
+        for (let roomIndex in rooms) {
+            // features in a room are things like lights and curtains
+            let features = rooms[roomIndex].features;
+            for (let featureIndex in features) {
+                // indiviual features things like lamps, or specific curtains
+                let feature = features[featureIndex];
+                let svgElement = document.getElementById('home-map').contentDocument.getElementById('g-' + roomIndex);
+                if (feature['controller'] === ControlsEnum.Light) {
+                    updateLight(svgElement, feature.status);
+                } else if (feature['controller'] === ControlsEnum.Curtain) {
+                    updateCurtains(svgElement, feature.status);
                 }
             }
         }
     }, 'json');
-}
+}, true);
 
-function updateLight(svgElement, currVal) {
-    if (!svgElement) return;
-    svgElement.style.fill = currVal === 'On' ? '#FFFF00' : '#A9A9A9';
-}
-
-function updateCurtains(svgElement, currVal) {
-    if (!svgElement) return;
-    svgElement.style.fillOpacity = currVal === 'Open'
-        ? parseFloat(svgElement.style.fillOpacity) + .3
-        : parseFloat(svgElement.style.fillOpacity) - .3;
-}
-
-// set up the control panel, using the data already read in
-function initControlPanel(homeData) {
-    'use strict';
-
-    // build control panel HTML block into a string, then append to the DOM at the end
-    // for better performance.
-    var controlHTML = '<div id="home">';
-    // features at the whole home level
-    var homeHTML = featureControlsHTML(homeData.features, homeID);
-    // finish that new HTML block & append it to the DOM in containerID
-    controlHTML += homeHTML;
-    controlHTML += '</div>';
-    $('#' + containerID).append(controlHTML);
-    // add the "update feature" listener to all control panel form elements
-    $('#' + containerID + ' input').change(updateFeature);
-    $('#' + containerID + ' select').change(updateFeature);
+/**
+ * Fetches the house object from the 'API' and builds the control panel
+ * 
+ * Adds the controls to the container element which we listen to for events on any of the controls
+ * When any control is updated we call updateFeature - If you want to listen for any event that is we you'll add the logic
+ */
+function initControlPanel() {
+    $.get('API/homes/whitehouse/house.json', function (data) {
+        // use home object to initialize the control panel - get's rooms, temp, etc.
+        let homeData = data.home;
+        let controlsHTML = '<div id="home">' + featureControlsHTML(homeData.features, homeID) + '</div>';
+        $('#' + containerID).append(controlsHTML);
+        // add the "update feature" listener to control panel
+        $('#' + containerID + ' input').change(updateFeature);
+        $('#' + containerID + ' select').change(updateFeature);
+    }, 'json');
 };
 
-// set up features for a space (house or room) in control panel
+/**
+ * Handles clicks on rooms in the SVG to and updates the room contoller
+ * 
+ * @param {object} element - SVG element that was clicked 
+ * @param {string} controllerId - ID for the room dropdown controller
+ */
+function handleRoomClick(element, controllerId) {
+    $('#' + controllerId).val(element.id.substring(2));
+    let controller = controllerMap.get(controllerId);
+    controller.updateHouse();
+}
+
+/**
+ * Runs through each feature in the featureList and gathers the HTML for the individual controls
+ * 
+ * @param {object} featureList - An object with the features (i.e., temp/rooms or lights/curtains) to build a control
+ * @param {string} parentID - ID of parent object (i.e., 'home', 'kitchen', etc.)
+ * 
+ * @returns {string} html - The combined HTML of all the controls created for the given featureList
+ */
 function featureControlsHTML(featureList, parentID) {
-    'use strict';
-    var newHTML = '';
+    let html = '';
     // load an array of features - child of either the overall home or one room
     $.each(featureList, function (index, element) {
-        var elementId = parentID + '_' + index;
-        newHTML += featureControlHTML(element, elementId, parentID.split('_').pop());
+        let elementId = parentID + '_' + index;
+        html += featureControlHTML(element, elementId, parentID.split('_').pop());
     });
 
-    return newHTML;
+    return html;
 };
 
-// set up one single feature
-// this function will replace an existing feature on the page, or will create a new one
+/**
+ * Creates a new Controller, adds it to the controllerMap, and returns the HTML needed to display the new controller
+ * 
+ * @param {object} feature - API object driving the control. Example: {name: "Temperature", element-id: "home-map", controller: "temp", status: 68}
+ * @param {string} elementId The ID that will be used as the HTML element's ID property
+ * @param {string} roomId - Null unless control is specific to a room. Useful for room-specific controls (i.e., the light is in the kitchen)
+ * 
+ * @returns {string} html - The HTML of the control that was created or an empty string in the case that a control was not created
+ */
 function featureControlHTML(feature, elementId, roomId) {
-    'use strict';
-    var controller;
-    var newHTML = '<div class="feature">';
+    let controller;
+    let html = '<div class="feature">';
     switch (feature.controller) {
         case ControlsEnum.RoomsSelector:
             controller = new RoomsSelector(elementId);
             break;
         case ControlsEnum.Light:
-            controller = new Light(feature, roomId, elementId, RoomsCache[roomId]);
+            controller = new Light(feature, roomId, elementId, Rooms[roomId]);
             break;
         case ControlsEnum.Curtain:
-            controller = new Curtain(feature, roomId, elementId, RoomsCache[roomId]);
+            controller = new Curtain(feature, roomId, elementId, Rooms[roomId]);
             break;
         case ControlsEnum.Temp:
             controller = new Temp(elementId);
@@ -115,15 +116,24 @@ function featureControlHTML(feature, elementId, roomId) {
             return '';
     }
     controllerMap.set(elementId, controller);
-    newHTML += controller.getTemplate(feature);
-    newHTML += '</div>';
-    return newHTML;
+    html += controller.getTemplate(feature);
+    html += '</div>';
+    return html;
 };
 
+
+/**
+ * This method can be used for listening for Controller events as they all call back here on changes
+ * The map uses the ID of the triggered element to get the corresponding controller.
+ * 
+ * You can add logic here to respond to events; however, leave the update and save calls as they will update
+ * the UI and API with the updates that occurred.
+ * 
+ * @param str Defines the Event triggered the function call 
+ */
 function updateFeature(str) {
-    'use strict';
     if (controllerMap.has(this.id)) {
-        var controller = controllerMap.get(this.id);
+        let controller = controllerMap.get(this.id);
         controller.updateHouse();
         controller.save();
     }

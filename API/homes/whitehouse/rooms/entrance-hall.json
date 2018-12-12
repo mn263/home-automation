@@ -4,12 +4,12 @@
         "light": {
             "name": "Hall Light",
             "controller": "light",
-            "current-value": "On"
+            "status": "On"
         },
         "curtains": {
             "name": "Front Curtains",
             "controller": "curtain",
-            "current-value": "Closed"
+            "status": "Closed"
         }
     }
 }

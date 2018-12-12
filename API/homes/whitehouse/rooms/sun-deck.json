@@ -4,7 +4,7 @@
         "overhead-light": {
             "name": "Overhead Light",
             "controller": "light",
-            "current-value": "Off"
+            "status": "Off"
         }
     }
 }

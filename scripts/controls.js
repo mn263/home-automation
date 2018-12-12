@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * NOTE: All Controls should implement the following functions:
  * getTemplate - returns the HTML template the will be used to create the control
@@ -6,21 +8,16 @@
  * save - calls the API to save changes to the controller
  */
 
-const ControlsEnum = {
-	RoomsSelector: 'rooms',
-	Temp: 'temp',
-	Light: 'light',
-	Curtain: 'curtain',
-}
+
 
 class RoomsSelector {
 	constructor(elementId) {
 		this.elementId = elementId;
 	};
 	getTemplate(features) {
-		var html = `<select id="` + this.elementId + `">
+		let html = `<select id="` + this.elementId + `">
 			<option value="">Choose Room</option>`;
-		features["current-value"].forEach((room) => {
+		features["status"].forEach((room) => {
 			html += `<option value="` + room.id + `">` + room.displayName + `</option>`;
 		});
 		html += `</select>`
@@ -30,14 +27,14 @@ class RoomsSelector {
 		return $('#' + this.elementId).val();
 	};
 	updateHouse() {
-		var controlValue = this.getValue();
+		let controlValue = this.getValue();
 		$('.room').remove();
 		if (!controlValue) return; // occurs when "Choose Room" is selected
 		// todo: this.$doc.trigger( "update-room", [$name.text(), newRoom] );
 		// get the room features from the API
 		$.get('API/homes/whitehouse/rooms/' + controlValue + '.json', (room) => {
-			var roomID = homeID + '_' + controlValue;
-			var roomHTML = `<div id="` + roomID + `" class="room">
+			let roomID = homeID + '_' + controlValue;
+			let roomHTML = `<div id="` + roomID + `" class="room">
 				<h3>` + room.name + `</h3>` + featureControlsHTML(room.features, roomID) + `
 				</div>`;
 
@@ -60,15 +57,15 @@ class Light {
 		this.svgId = 'g-' + roomId;
 	};
 	getTemplate() {
-		var checked = this.light['current-value'] === 'On' ? ' checked="checked" ' : '';
-		return `<input type="checkbox" id="` + this.elementId + `" value="` + this.light['current-value'] + `" ` + checked + `/>
+		let checked = this.light.status === LightValues.On ? ' checked="checked" ' : '';
+		return `<input type="checkbox" id="` + this.elementId + `" value="` + this.light.status + `" ` + checked + `/>
 			<label for="` + this.elementId + `">` + this.light.name + ` - On</label>`;
 	};
 	getValue() {
-		return $('#' + this.elementId).prop('checked') ? 'On' : 'Off';
+		return $('#' + this.elementId).prop('checked') ? LightValues.On : LightValues.Off;
 	};
 	updateHouse() {
-		var svgElement = document.getElementById('home-map').contentDocument.getElementById(this.svgId);
+		let svgElement = document.getElementById('home-map').contentDocument.getElementById(this.svgId);
 		updateLight(svgElement, this.getValue());
 	};
 	save() {
@@ -93,15 +90,15 @@ class Curtain {
 		this.svgId = 'g-' + roomId;
 	};
 	getTemplate() {
-		var checked = this.curtain['current-value'] === 'Closed' ? ' checked="checked" ' : '';
-		return `<input type="checkbox" id="` + this.elementId + `" class="boolean" value="` + this.curtain['current-value'] + `" ` + checked + `/>
+		let checked = this.curtain.status === CurtainValues.Closed ? ' checked="checked" ' : '';
+		return `<input type="checkbox" id="` + this.elementId + `" class="boolean" value="` + this.curtain.status + `" ` + checked + `/>
 			<label for="` + this.elementId + `">` + this.curtain.name + ` - Drawn</label>`;
 	};
 	getValue() {
-		return $('#' + this.elementId).prop('checked') ? 'Closed' : 'Open';
+		return $('#' + this.elementId).prop('checked') ? CurtainValues.Closed : CurtainValues.Open;
 	};
 	updateHouse() {
-		var svgElement = document.getElementById('home-map').contentDocument.getElementById(this.svgId);
+		let svgElement = document.getElementById('home-map').contentDocument.getElementById(this.svgId);
 		updateCurtains(svgElement, this.getValue());
 	};
 	save() {
@@ -125,26 +122,26 @@ class Temp {
 	};
 	getTemplate(feature) {
 		return `<label for="` + this.elementId + `" class="integer"> ` + feature.name + `:
-				<span id="` + this.elementId + `-temp" style="padding: 5px">` + feature[`current-value`] + `&#8457; </span>
+				<span id="` + this.elementId + `-temp" style="padding: 5px">` + feature[`status`] + `&#8457; </span>
 			</label>
 			<input type="range" class="integer" min="60" max="80"
-				id="` + this.elementId + `" value="` + feature[`current-value`] + `" />`;
+				id="` + this.elementId + `" value="` + feature[`status`] + `" />`;
 	};
 	getValue() {
 		return $('#' + this.elementId).val();
 	}
 	updateHouse() {
 		// update the house SVG
-		var controlValue = this.getValue();
+		let controlValue = this.getValue();
 		$('#' + this.elementId + '-temp').html(controlValue + '&#8457;');
-		var warmth = 255 - ((controlValue - 70) * 5);
-		var cold = 255 - ((70 - controlValue) * 5);
-		var svgElement = document.getElementById(this.svgId);
+		let warmth = 255 - ((controlValue - 70) * 5);
+		let cold = 255 - ((70 - controlValue) * 5);
+		let svgElement = document.getElementById(this.svgId);
 		svgElement.style.background = 'rgba(' + cold + ', ' + warmth + ',' + warmth + ', 0.5)';
 	};
 	save() {
 		// call API to update house temp
-		$.post('API/homes/whitehouse/home.json', {
+		$.post('API/homes/whitehouse/house.json', {
 			temp: this.getValue(),
 		}).done(function (data) {
 			if (data.success === false) {
@@ -153,3 +150,46 @@ class Temp {
 		}, 'json');
 	}
 }
+
+/**
+ * Updates the room room color when the light is turned on/off
+ * 
+ * @param {object} svgElement - SVG element that will be updated
+ * @param {string} currVal - Value of the light control in the current room
+ */
+function updateLight(svgElement, currVal) {
+	if (!svgElement) return;
+	svgElement.style.fill = currVal === LightValues.On ? '#FFFF00' : '#A9A9A9';
+}
+
+/**
+ * Updates the room room color when the light is turned on/off
+ * 
+ * @param {object} svgElement - SVG element that will be updated
+ * @param {string} currVal - Value of the curtain control in the current room
+ */
+function updateCurtains(svgElement, currVal) {
+	if (!svgElement) return;
+	svgElement.style.fillOpacity = currVal === CurtainValues.Open
+		? parseFloat(svgElement.style.fillOpacity) + .3
+		: parseFloat(svgElement.style.fillOpacity) - .3;
+}
+
+/**
+ * Enums used for tracking control types and Control value types
+ * 
+ */
+const ControlsEnum = {
+	RoomsSelector: 'rooms',
+	Temp: 'temp',
+	Light: 'light',
+	Curtain: 'curtain',
+};
+const LightValues = {
+	On: 'On',
+	Off: 'Off'
+};
+const CurtainValues = {
+	Open: 'Open',
+	Closed: 'Closed'
+};

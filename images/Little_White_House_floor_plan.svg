@@ -20,17 +20,17 @@
 	</foreignObject>
 	<g i:extraneous="self">
 		<path id="path8282" fill="#FFFFFF" d="M492.4,755v-26.2h-46.2v8.5h-19.5v17L492.4,755z"/>
-		<path id="g-sun-deck" fill="#FFFF00" d="M2.2,422.3h578.6V288.2L431,288.5c0-76.9-62.3-139.2-139.2-139.2s-139.2,62.3-139.2,139.2
+		<path id="g-sun-deck" fill="#FFFF00" onclick="window.parent.handleRoomClick(this, 'home_room')" d="M2.2,422.3h578.6V288.2L431,288.5c0-76.9-62.3-139.2-139.2-139.2s-139.2,62.3-139.2,139.2
 			L2.2,288.2L2.2,422.3L2.2,422.3z" style="fill-opacity: 0.7" />
-		<rect id="g-master-bedroom" x="-8.4" y="421" fill="#FFFF00" width="167.9" height="214.8" style="fill-opacity: 0.7" />
-		<rect id="g-entrance-hall" x="161.3" y="609.5" fill="#FFFF00" width="181.8" height="146.4" style="fill-opacity: 0.7" />
-		<path id="g-third-bedroom" fill="#FFFF00" d="M-6.8,635v119.3h166.3L160,705h32.5v-39.5h-33.9l0.4-61.6h-56.3V635H-6.8L-6.8,635z"
+		<rect id="g-master-bedroom" x="-8.4" y="421" fill="#FFFF00" onclick="window.parent.handleRoomClick(this, 'home_room')" width="167.9" height="214.8" style="fill-opacity: 0.7" />
+		<rect id="g-entrance-hall" x="161.3" y="609.5" fill="#FFFF00" onclick="window.parent.handleRoomClick(this, 'home_room')" width="181.8" height="146.4" style="fill-opacity: 0.7" />
+		<path id="g-third-bedroom" fill="#FFFF00" onclick="window.parent.handleRoomClick(this, 'home_room')" d="M-6.8,635v119.3h166.3L160,705h32.5v-39.5h-33.9l0.4-61.6h-56.3V635H-6.8L-6.8,635z"
 			 style="fill-opacity: 0.7" />
-		<path id="g-living-room" fill="#FFFF00" d="M421.8,610.2v-6.7h9v-58.3l14.6-0.4v-51.3h-14.1v-31.8h-6.9v-40.1l-265.9-0.2l0.7,189
+		<path id="g-living-room" fill="#FFFF00" onclick="window.parent.handleRoomClick(this, 'home_room')" d="M421.8,610.2v-6.7h9v-58.3l14.6-0.4v-51.3h-14.1v-31.8h-6.9v-40.1l-265.9-0.2l0.7,189
 			H421.8z" style="fill-opacity: 0.7" />
-		<path id="g-second-bedroom" fill="#FFFF00" d="M422.3,422.5V462h9v3.8h16.6v103.3l-17.3-0.2v35H509l0.2,36.5h82.5l-0.7-218.1
+		<path id="g-second-bedroom" fill="#FFFF00" onclick="window.parent.handleRoomClick(this, 'home_room')" d="M422.3,422.5V462h9v3.8h16.6v103.3l-17.3-0.2v35H509l0.2,36.5h82.5l-0.7-218.1
 			L422.3,422.5z" style="fill-opacity: 0.7" />
-		<path id="g-kitchen" fill="#FFFF00" d="M342.7,610.2H422v-6.3h87.2l0.2,36.5H592L591.3,755h-98.9v-26.2h-46.2v8.5h-19.5v17h-84.1
+		<path id="g-kitchen" fill="#FFFF00" onclick="window.parent.handleRoomClick(this, 'home_room')" d="M342.7,610.2H422v-6.3h87.2l0.2,36.5H592L591.3,755h-98.9v-26.2h-46.2v8.5h-19.5v17h-84.1
 			V610.2L342.7,610.2z" style="fill-opacity: 0.7" />
 		<path id="rect4730" fill="#8A7959" d="M427.9,463.8l21.5-0.2v104.7h-21.3v-8.7h-8.3V538h22.4v-40.8h-22.4v-19.3h8.1L427.9,463.8
 			L427.9,463.8z"/>

@@ -5,12 +5,12 @@
             "light": {
                 "name": "Hall Light",
                 "controller": "light",
-                "current-value": "On"
+                "status": "On"
             },
             "curtains": {
                 "name": "Front Curtains",
                 "controller": "curtain",
-                "current-value": "Closed"
+                "status": "Closed"
             }
         }
     },
@@ -20,12 +20,12 @@
             "overhead-light": {
                 "name": "Overhead Light",
                 "controller": "light",
-                "current-value": "On"
+                "status": "On"
             },
             "curtains": {
                 "name": "Curtains",
                 "controller": "curtain",
-                "current-value": "Open"
+                "status": "Open"
             }
         }
     },
@@ -35,12 +35,12 @@
             "overhead-light": {
                 "name": "Overhead Light",
                 "controller": "light",
-                "current-value": "On"
+                "status": "On"
             },
             "curtains": {
                 "name": "Over-Sink Curtains",
                 "controller": "curtain",
-                "current-value": "Open"
+                "status": "Open"
             }
         }
     },
@@ -50,7 +50,7 @@
             "overhead-light": {
                 "name": "Overhead Light",
                 "controller": "light",
-                "current-value": "Off"
+                "status": "Off"
             }
         }
     },
@@ -60,12 +60,12 @@
             "bedside-lamp": {
                 "name": "Bedside Lamp",
                 "controller": "light",
-                "current-value": "Off"
+                "status": "Off"
             },
             "curtains": {
                 "name": "Blackout Curtains",
                 "controller": "curtain",
-                "current-value": "Closed"
+                "status": "Closed"
             }
         }
     },
@@ -75,33 +75,33 @@
             "bedside-lamp": {
                 "name": "Bedside Lamp",
                 "controller": "light",
-                "current-value": "Off"
+                "status": "Off"
             },
             "front-curtains": {
                 "name": "Front Curtains",
                 "controller": "curtain",
-                "current-value": "Closed"
+                "status": "Closed"
             },
             "side-curtains": {
                 "name": "Side Curtains",
                 "controller": "curtain",
-                "current-value": "Closed"
+                "status": "Closed"
             }
         }
-    }, 
+    },
     "third-bedroom": {
         "name": "Third Bedroom",
         "features": {
             "bedside-lamp": {
                 "name": "Bedside Lamp",
                 "controller": "light",
-                "current-value": "Off"
+                "status": "Off"
             },
             "curtains": {
                 "name": "Blackout Curtains",
                 "controller": "curtain",
-                "current-value": "Closed"
+                "status": "Closed"
             }
         }
     }
-}	
+}

@@ -4,12 +4,12 @@
         "bedside-lamp": {
             "name": "Bedside Lamp",
             "controller": "light",
-            "current-value": "Off"
+            "status": "Off"
         },
         "curtains": {
             "name": "Blackout Curtains",
             "controller": "curtain",
-            "current-value": "Closed"
+            "status": "Closed"
         }
     }
 }

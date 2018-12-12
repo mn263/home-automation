@@ -4,17 +4,17 @@
         "bedside-lamp": {
             "name": "Bedside Lamp",
             "controller": "light",
-            "current-value": "Off"
+            "status": "Off"
         },
         "front-curtains": {
             "name": "Front Curtains",
             "controller": "curtain",
-            "current-value": "Closed"
+            "status": "Closed"
         },
         "side-curtains": {
             "name": "Side Curtains",
             "controller": "curtain",
-            "current-value": "Closed"
+            "status": "Closed"
         }
     }
 }
