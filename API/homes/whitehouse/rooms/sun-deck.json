@@ -1,6 +1,5 @@
 {
     "name": "Sun Deck",
-    "svg-id": "g-sun-deck",
     "features": {
         "overhead-light": {
             "name": "Overhead Light",

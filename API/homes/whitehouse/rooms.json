@@ -1,7 +1,6 @@
 {
     "entrance-hall": {
         "name": "Entrance Hall",
-        "svg-id": "g-entrance-hall",
         "features": {
             "light": {
                 "name": "Hall Light",
@@ -17,7 +16,6 @@
     },
     "living-room": {
         "name": "Living Room",
-        "svg-id": "g-living-room",
         "features": {
             "overhead-light": {
                 "name": "Overhead Light",
@@ -33,7 +31,6 @@
     },
     "kitchen": {
         "name": "Kitchen",
-        "svg-id": "g-kitchen",
         "features": {
             "overhead-light": {
                 "name": "Overhead Light",
@@ -49,7 +46,6 @@
     },
     "sun-deck": {
         "name": "Sun Deck",
-        "svg-id": "g-sun-deck",
         "features": {
             "overhead-light": {
                 "name": "Overhead Light",
@@ -60,7 +56,6 @@
     },
     "master-bedroom": {
         "name": "Master Bedroom",
-        "svg-id": "g-master-bedroom",
         "features": {
             "bedside-lamp": {
                 "name": "Bedside Lamp",
@@ -76,7 +71,6 @@
     },
     "second-bedroom": {
         "name": "Second Bedroom",
-        "svg-id": "g-second-bedroom",
         "features": {
             "bedside-lamp": {
                 "name": "Bedside Lamp",
@@ -97,7 +91,6 @@
     }, 
     "third-bedroom": {
         "name": "Third Bedroom",
-        "svg-id": "g-third-bedroom",
         "features": {
             "bedside-lamp": {
                 "name": "Bedside Lamp",

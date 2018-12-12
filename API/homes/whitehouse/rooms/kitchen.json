@@ -1,6 +1,5 @@
 {
     "name": "Kitchen",
-    "svg-id": "g-kitchen",
     "features": {
         "overhead-light": {
             "name": "Overhead Light",

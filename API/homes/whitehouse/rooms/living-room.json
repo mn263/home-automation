@@ -1,6 +1,5 @@
 {
     "name": "Living Room",
-    "svg-id": "g-living-room",
     "features": {
         "overhead-light": {
             "name": "Overhead Light",

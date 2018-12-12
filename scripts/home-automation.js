@@ -1,13 +1,13 @@
 /* jslint browser: true, white: true */
 
 // Set up home framework
-
-var Rooms = {};
-var JAHOME = {};
-JAHOME.idDelimiter = '_';
-JAHOME.homeID = 'home';
-JAHOME.containerID = 'control-panel-content';
-
+// in a production site we would use real caching of data
+var RoomsCache = {};
+var HomeCache = {};
+var featureTypes = {};
+const idDelimiter = '_';
+const homeID = 'home';
+const containerID = 'control-panel-content';
 $.getScript( "scripts/controls.js" )
 .done(function( script, textStatus ) {
     // todo: try getting the homeId from the url
@@ -28,17 +28,17 @@ var initHomeData = function (featureID, containerID) {
 	
 	$.get('API/homes/whitehouse/home.json', function (data) {
 		
-		JAHOME.homeData = data[JAHOME.homeID];
-		JAHOME.featureData = data[featureID];
+		HomeCache = data[homeID];
+		var featureData = data[featureID];
 		
 		// set up the feature types allowed in this home
-		JAHOME.featureTypes = initFeatureTypes(JAHOME.featureData);
+		featureTypes = initFeatureTypes(featureData);
 		
-		initControlPanel(containerID);
+		initControlPanel(featureTypes, data.home, containerID);
     }, 'json');
 };
 
-var updateMapToReflectRoomStatuses = function () {
+function updateMapToReflectRoomStatuses() {
 	$.get('API/homes/whitehouse/rooms.json', function (rooms) {
         Rooms = rooms;
         for (var roomIndex in rooms) {
@@ -49,7 +49,7 @@ var updateMapToReflectRoomStatuses = function () {
                     var feature = features[featureIndex];
 
                     var doc = document.getElementById('home-map').contentDocument;
-                    var svgElement = doc.getElementById(room['svg-id']);
+                    var svgElement = doc.getElementById('g-' + roomIndex);
                 
                     if (feature['feature-type'] === 'light') {
                         updateLight(svgElement, feature['current-value']);
@@ -63,12 +63,12 @@ var updateMapToReflectRoomStatuses = function () {
     }, 'json');    
 }
 
-var updateLight = function(svgElement, currVal) {
+function updateLight(svgElement, currVal) {
     if (!svgElement) return;
     svgElement.style.fill = currVal === 'On' ? '#FFFF00' : '#A9A9A9';
 }
 
-var updateCurtains = function(svgElement, currVal) {
+function updateCurtains(svgElement, currVal) {
     if (!svgElement) return;
     svgElement.style.fillOpacity = currVal === 'Open' 
         ? parseFloat(svgElement.style.fillOpacity) + .3
@@ -76,52 +76,51 @@ var updateCurtains = function(svgElement, currVal) {
 }
 
 // set up the control panel, using the data already read in
-var initControlPanel = function (containerID) {
+function initControlPanel(featureTypes, homeData, containerID) {
 	'use strict';
     
     // build control panel HTML block into a string, then append to the DOM at the end
     // for better performance.
     var controlHTML = '<div id="home">';
     // features at the whole home level
-    var homeHTML = JAHOME.featureControlsHTML(JAHOME.featureTypes, JAHOME.homeData.features, JAHOME.homeID);
+    var homeHTML = featureControlsHTML(featureTypes, homeData.features, homeID);
     // finish that new HTML block & append it to the DOM in containerID
     controlHTML += homeHTML;
     controlHTML += '</div>';
     $('#' + containerID).append(controlHTML);
 
     // add the "update feature" listener to all control panel form elements
-    $('#' + containerID + ' input').change(JAHOME.updateFeature);
-    $('#' + containerID + ' select').change(JAHOME.updateFeature);
-    $('#' + containerID + ' textarea').change(JAHOME.updateFeature);
-    $('#' + containerID + ' button').change(JAHOME.updateFeature);
+    $('#' + containerID + ' input').change(updateFeature);
+    $('#' + containerID + ' select').change(updateFeature);
+    $('#' + containerID + ' textarea').change(updateFeature);
+    $('#' + containerID + ' button').change(updateFeature);
 };
 
 // here, we take a JSON object describing the different home features available, then
 // add functions; functionality won't/shouldn't be part of the actual JSON data,
 // using the different supported data types offered in JADATA 
 // (an extensible object initialized first in data-types.js)
-var initFeatureTypes = function (featureTypeData) {
+function initFeatureTypes(featureTypeData) {
 	'use strict';
 	
 	// add the functions & whatnot from the JS data type object	
 	$.each(featureTypeData, function (index, element) {
-		featureTypeData[index]['data-type-object'] = CONTROLS[element['controller']];
+		featureTypeData[index]['data-type-object'] = element['controller'];
 	});
 		   
 	return featureTypeData;
 };
 
 // set up features for a space (house or room) in control panel
-JAHOME.featureControlsHTML = function (featureTypes, featureList, parentID) {
+function featureControlsHTML(featureTypes, featureList, parentID) {
 	'use strict';
 	
 	var newHTML = '';
 		
 	// load an array of features - child of either the overall home or one room
 	$.each(featureList, function (index, element) {
-		var domID = parentID + JAHOME.idDelimiter + index;
-		
-		newHTML += JAHOME.featureControlHTML(featureTypes[element['feature-type']], element, domID, parentID.split('_').pop());
+		var elementId = parentID + idDelimiter + index;
+		newHTML += featureControlHTML(featureTypes[element['feature-type']], element, elementId, parentID.split('_').pop());
 	});
 	
 	return newHTML;
@@ -129,28 +128,33 @@ JAHOME.featureControlsHTML = function (featureTypes, featureList, parentID) {
 
 // set up one single feature
 // this function will replace an existing feature on the page, or will create a new one
-JAHOME.featureControlHTML = function (featureType, feature, domID, roomId) {
+function featureControlHTML(featureType, feature, elementId, roomId) {
 	'use strict';
 	
     var newHTML = '<div class="feature">';
-    if (featureType.controller === "dropdown") {
-        var dropdown = new Dropdown();
-        newHTML += dropdown.getTemplate(featureType, feature, domID);
-        featureType['data-type-object'] = dropdown;
-    } else if (featureType.controller === "lights") {
-        var lightCtrl = new Light(roomId);
-        newHTML += lightCtrl.getTemplate(featureType, feature, domID);
-        featureType['data-type-object'] = lightCtrl;
-    } else if (featureType.controller === "curtain") {
-        var curtainCtrl = new Curtain(roomId);
-        newHTML += curtainCtrl.getTemplate(featureType, feature, domID);
-        featureType['data-type-object'] = curtainCtrl;
-    } else if (featureType.controller === "temp") {
-        var tempCtrl = new Temp();
-        newHTML += tempCtrl.getTemplate(featureType, feature, domID);
-        featureType['data-type-object'] = tempCtrl;
-    // } else {
-    //     newHTML += featureType['data-type-object'].getTemplate(featureType, feature, domID);
+    switch(featureType.controller) {
+        case ControlsEnum.RoomsSelector:
+            var dropdown = new RoomsSelector(elementId);
+            newHTML += dropdown.getTemplate(featureType, feature);
+            featureType['data-type-object'] = dropdown;
+            break;
+        case ControlsEnum.Light:
+            var lightCtrl = new Light(roomId, elementId);
+            newHTML += lightCtrl.getTemplate(featureType, feature);
+            featureType['data-type-object'] = lightCtrl;
+            break;
+        case ControlsEnum.Curtain:
+            var curtainCtrl = new Curtain(elementId);
+            newHTML += curtainCtrl.getTemplate(featureType, feature);
+            featureType['data-type-object'] = curtainCtrl;
+            break;
+        case ControlsEnum.Temp:
+            var tempCtrl = new Temp(elementId);
+            newHTML += tempCtrl.getTemplate(featureType, feature);
+            featureType['data-type-object'] = tempCtrl;
+            break;
+        default:
+            console.error('No matching controller was found: ', featureType.controller);
     }
 	newHTML += '</div>';
 
@@ -159,62 +163,16 @@ JAHOME.featureControlHTML = function (featureType, feature, domID, roomId) {
 
 // onclick event, to save one single feature
 // uses initialized JAHOME variables to figure out what needs saving
-JAHOME.updateFeature = function (str) {
+function updateFeature(str) {
 	'use strict';
+    var featureTree = this.id.split(idDelimiter);
+    var featureKey = featureTree[featureTree.length - 1];
+    // the ID tells the "parentage" story... 
+    var feature = (featureKey === 'room')
+        ? RoomsCache[featureRoom].features[featureKey]
+        : feature = HomeCache.features[featureKey];
 
-    var featureTree = this.id.split(JAHOME.idDelimiter),
-        featureKey = featureTree[featureTree.length - 1],
-        featureRoom = '',
-        featureValue,
-        featureType,
-        feature,
-        doc,
-        svgElement,
-        elementId = '';
-
-    // the dom ID tells the "parentage" story... 
-    // a 3-item ID is inside a room
-    if (featureTree.length > 2) {
-        featureRoom = featureTree[1];
-        feature = Rooms[featureRoom].features[featureKey];
-        elementId = Rooms[featureRoom]['svg-id'];
-        doc = document.getElementById('home-map').contentDocument;
-        svgElement = doc.getElementById(elementId);
-            
-    // < 3 items, and it isn't inside a room 
-    } else {
-        // if the id is not home-map then we get the id from inside the house SVG
-        feature = JAHOME.homeData.features[featureKey];
-        elementId = feature['element-id'];
-        if (elementId === 'home-map') {
-            svgElement = document.getElementById(elementId);
-        } else {
-            doc = document.getElementById('home-map').contentDocument;
-            svgElement = doc.getElementById(elementId);
-        }
-    }
-    
-    // get the SVG object so we can animate it
-    // using JS dom selection because jQuery was problematic
-	//svgElement.style.fillOpacity = 0.2;
-    
-    // the new value depends on the data type, state, & item selected
-    // for extensibility yet still somewhat secure, this can be found in the function controlValue() 
-    // originally in JADA.
-    featureType = JAHOME.featureTypes[feature['feature-type']];
-    featureValue = featureType['data-type-object'].getValue(featureType, feature, this.id);
-    featureType['data-type-object'].updateHouse(featureType, feature, this.id, featureValue, svgElement);
-    
-    // since data persistent is not a requirement,
-    // the "save" json file just a stub, and simply returns a success case for 
-    // setting a particular feature on the server.    
-    $.get('API/set-feature.json', {
-        "room": featureRoom,
-        "key": featureKey,
-        "value": featureValue
-    }).done(function (data) {
-        if (data.success === false) {
-            alert("Error saving adjustment: " + data.success);
-        }
-    }, 'json');
+    var featureType = featureTypes[feature['feature-type']];
+    featureType['data-type-object'].updateHouse(feature, this.id);
+    featureType['data-type-object'].save(feature);
 };

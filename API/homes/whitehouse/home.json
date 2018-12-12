@@ -11,14 +11,11 @@
 		},
 		"temp": {
 			"name": "Temperature",
-			"controller": "temp",
-			"units": "&#8457;",
-			"min": 60,
-			"max": 80
+			"controller": "temp"
 		},
 		"roomPicker": {
 			"name": "Picker",
-			"controller": "dropdown"
+			"controller": "rooms"
 		}
 	},
 	"home": {
@@ -31,7 +28,7 @@
 				"feature-type": "temp",
 				"current-value": 68
 			},
-			"roomdropdown": {
+			"room": {
 				"name": "Room Picker",
 				"description": "Choose a room you want to control",
 				"feature-type": "roomPicker",

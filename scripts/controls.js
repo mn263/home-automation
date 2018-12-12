@@ -2,84 +2,76 @@
  * NOTE: All Controls should implement the following functions:
  * getTemplate - returns the HTML template the will be used to create the control
  * getValue - returns the status of the control (i.e., lights on/off or curtains open/closed)
- * updateHouse - call this function update API and animate the SVG
+ * updateHouse - updates the UI
+ * save - calls the API to save changes to the controller
  */
 
  const ControlsEnum = {
-	Dropdown: 'dropdown',
-	Slider: 'slider',
-	Checkbox: 'checkbox',
-	// or maybe
+	RoomsSelector: 'rooms',
 	Temp: 'temp',
-	RoomSelector: 'rooms',
-	Room: 'room',
-	Light: 'light',
+	Light: 'lights',
 	Curtain: 'curtain',
-
  }
 
-class Dropdown  {
-	constructor() {};
-
-	getTemplate(featureType, features, domID) {
-		'use strict';
-
-		var newHTML = '';
-		newHTML = '<select id="' + domID + '">';
-		newHTML += '<option value="">Choose Room</option>';
+class RoomsSelector  {
+	constructor(elementId) {
+		this.elementId = elementId;
+	};
+	getTemplate(featureType, features) {
+		var html = `<select id="` + this.elementId + `">
+			<option value="">Choose Room</option>`;
 		features["current-value"].forEach((room) => {
-			newHTML += '<option value="' + room.id + '">' + room.displayName + '</option>';
+			html += `<option value="` + room.id + `">` + room.displayName + `</option>`;
 		});
-		newHTML += `</select>`
-
-		return newHTML;
+		html += `</select>`
+		return html;
 	};
-	getValue(featureType, feature, domID) {
-		'use strict';
-		return $('#' + domID).val();
+	getValue() {
+		return $('#' + this.elementId).val();
 	};
-	updateHouse(featureType, feature, domID, controlValue, svgElement) {
-		'use strict';
-		
+	updateHouse() {
+		var controlValue = this.getValue();
 		$('.room').remove();
 		if (!controlValue) return; // occurs when "Choose Room" is selected
 		// todo: this.$doc.trigger( "update-room", [$name.text(), newRoom] );
 		// get the room features from the API
 		$.get('API/homes/whitehouse/rooms/' + controlValue + '.json', (room) => {
 			var roomHTML = '';
-			var roomID = JAHOME.homeID + JAHOME.idDelimiter + controlValue;
+			var roomID = homeID + idDelimiter + controlValue;
 			// use a div & h3 heading for styling
 			roomHTML += '<div id="' + roomID + '" class="room"><h3>' + room.name + '</h3>';
-			roomHTML += JAHOME.featureControlsHTML(JAHOME.featureTypes, room.features, roomID);
+			roomHTML += featureControlsHTML(featureTypes, room.features, roomID);
 			roomHTML += '</div>';
 
-			$('#' + JAHOME.containerID).append(roomHTML);
+			$('#' + containerID).append(roomHTML);
 			// listen for changes on the added room
-			$('#' + JAHOME.containerID + ' input').change(JAHOME.updateFeature);
+			$('#' + containerID + ' input').change(updateFeature);
 		}, 'json');
-
+	};
+	save() {
+		// nothing to save as we are simply updating the room dropdown
 	};
 }
 
 class Light  {
-	constructor(roomId) {
+	constructor(roomId, elementId) {
+		this.elementId = elementId;
 		this.roomId = roomId;
+		this.svgId = 'g-' + elementId;
 	};
-	getTemplate (featureType, feature, domID) {
-		'use strict';
-
+	getTemplate (featureType, feature) {
 		var checked = feature['current-value'] === 'On'	? ' checked="checked" ' : '';
-		return `<label class="switch"><input type="checkbox" id="` + domID + `" class="boolean" value="` + featureType['true-value'] + `" ` + checked + `/><span class="slider"></span></label>
-			<label for="` + domID + `">` + feature.name + ` - On</label>`;
+		return `<label class="switch"><input type="checkbox" id="` + this.elementId + `" class="boolean" value="` + featureType['true-value'] + `" ` + checked + `/><span class="slider"></span></label>
+			<label for="` + this.elementId + `">` + feature.name + ` - On</label>`;
 	};
-	getValue(featureType, feature, domID) {
-		'use strict';
-		return $('#' + domID).prop('checked') ? 'On' : 'Off';
-	}
-	updateHouse(featureType, feature, domID, controlValue, svgElement) {
-		'use strict';
-
-		updateLight(svgElement, controlValue);
+	getValue() {
+		return $('#' + this.elementId).prop('checked') ? 'On' : 'Off';
+	};
+	updateHouse(feature) {
+		var svgElement = document.getElementById('home-map').contentDocument.getElementById(this.svgId);
+		updateLight(svgElement, this.getValue());
+	};
+	save(feature) {
 		// call API to update room with the changes
 		$.post('API/homes/whitehouse/rooms/' + this.roomId + '.json', {
 			light: feature.name,
@@ -93,23 +85,25 @@ class Light  {
 }
 
 class Curtain  {
-	constructor(roomId) {
+	constructor(roomId, elementId) {
+		this.elementId = elementId;
 		this.roomId = roomId;
+		this.svgId = 'g-' + elementId;
 	};
-	getTemplate (featureType, feature, domID) {
-		'use strict';
+	getTemplate (featureType, feature) {
 		var checked = feature['current-value'] === 'Closed'	? ' checked="checked" ' : '';
-		return `<label class="switch"><input type="checkbox" id="` + domID + `" class="boolean" value="` + featureType['true-value'] + `" ` + checked + `/><span class="slider"></span></label>
-			<label for="` + domID + `">` + feature.name + ` - Drawn</label>`;
+		return `<label class="switch"><input type="checkbox" id="` + this.elementId + `" class="boolean" value="` + featureType['true-value'] + `" ` + checked + `/><span class="slider"></span></label>
+			<label for="` + this.elementId + `">` + feature.name + ` - Drawn</label>`;
 	};	
-	getValue(featureType, feature, domID) {
-		'use strict';
-		return $('#' + domID).prop('checked') ? 'Closed' : 'Open';
-	}
-	updateHouse(featureType, feature, domID, controlValue, svgElement) {
-		'use strict';
-
-		updateCurtains(svgElement, controlValue);
+	getValue() {
+		return $('#' + this.elementId).prop('checked') ? 'Closed' : 'Open';
+	};
+	updateHouse() {
+		var svgElement = document.getElementById('home-map').contentDocument.getElementById(this.svgId);
+		updateCurtains(svgElement, this.getValue());
+	};
+	save(feature) {
+		this.updateHouse();
 		// call API to update room with the changes
 		$.post('API/homes/whitehouse/rooms/' + this.roomId + '.json', {
 			curtain: feature.name,
@@ -119,36 +113,37 @@ class Curtain  {
 				alert("Error saving adjustment: " + data.success);
 			}
 		}, 'json');
-	}
+	};
 }
 
 class Temp  {
-	constructor() {};
-	getTemplate (featureType, feature, domID) {
-		'use strict';
-
-		var newHTML = '<label for="' + domID + '" class="integer"> ' + feature.name + ':' 
-			+ '<span id="' + domID + '-temp" style="padding: 5px">' + feature['current-value'] + featureType.units + '</span>' 
-			+ '</label>';
-		newHTML += '<input type="range" class="integer" min="' + featureType.min + '" max="' + featureType.max + '" ';
-		newHTML += 'id="' + domID + '" value="' + feature['current-value'] + '" />';
-		return newHTML;
+	constructor(elementId) {
+		this.elementId = elementId;
+		this.svgId = 'home-map';
+	};
+	getTemplate (featureType, feature) {
+		return `<label for="` + this.elementId + `" class="integer"> ` + feature.name + `:
+				<span id="` + this.elementId + `-temp" style="padding: 5px">` + feature[`current-value`] + `&#8457; </span>
+			</label>
+			<input type="range" class="integer" min="60" max="80"
+				id="` + this.elementId + `" value="` + feature[`current-value`] + `" />`;
 	};	
-	getValue(featureType, feature, domID) {
-		'use strict';
-		return $('#' + domID).val();
+	getValue() {
+		return $('#' + this.elementId).val();
 	}
-	updateHouse(featureType, feature, domID, controlValue, svgElement) {
-		'use strict';
+	updateHouse() {
 		// update the house SVG
-		$('#' + domID + '-temp').html(controlValue + featureType.units);
+		var controlValue = this.getValue();
+		$('#' + this.elementId + '-temp').html(controlValue + '&#8457;');
 		var warmth = 255 - ((controlValue - 70) * 5);
 		var cold = 255 - ((70 - controlValue) * 5);
+		var svgElement = document.getElementById(this.svgId);
 		svgElement.style.background = 'rgba(' + cold + ', ' + warmth + ',' + warmth + ', 0.5)';
-
+	};
+	save() {
 		// call API to update house temp
 		$.post('API/homes/whitehouse/home.json', {
-			temp: controlValue,
+			temp: this.getValue(),
 		}).done(function (data) {
 			if (data.success === false) {
 				alert("Error saving adjustment: " + data.success);
@@ -156,40 +151,3 @@ class Temp  {
 		}, 'json');
 	}
 }
-
-const CONTROLS = {
-		// TODO: instead of boolean, integer, etc.
-		// let's use dropdown, checkbox, slider, etc.
-		"boolean": {
-			// this function should return the HTML needed to create the control on the page
-			// why not just add it to the dom here?  
-			// save everything up & add it at once, for better performance.
-		},
-		
-		// the integer data type powers the temperature control
-		"temp": {
-
-			// this function should return the HTML needed to create the control on the page
-			// why not just add it to the dom here?  
-			// save everything up & add it at once, for better performance.
-			"getTemplate": function (featureType, feature, domID) {
-				'use strict';
-
-			},
-
-			// return the feature control’s actual value,
-			// here we have abstraction! it may or may not be what is in the form field
-			"getValue": function (featureType, feature, domID) {
-				'use strict';
-
-				
-			},
-
-			// call this function to animate the feature in the SVG
-			"updateHouse": function (featureType, feature, domID, controlValue, svgElement) {
-				'use strict';
-
-				// update the visible value //℉
-			}
-		}
-};
