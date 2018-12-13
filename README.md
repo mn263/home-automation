@@ -1,5 +1,12 @@
 # JavaScript application simulating house automation
 
+[See working Example](https://mn263.github.io/home-automation/) 
+Interactions: 
+- Clicking on a room - Updates the room selector to the room that was clicked for quick management
+- Tempurature - Changes house SVG color to represent warm/cold temps
+- Lights - Changes room colors from yellow to gray representing whether lights are on or not
+- Curtain - Changes room opacity indicating natual light being blocked or let in
+
 ## Attributions/References
 House SVG:
 [Little_White_House_floor_plan.svg](https://en.m.wikipedia.org/wiki/File:Little_White_House_floor_plan.svg)
