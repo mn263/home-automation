@@ -11,21 +11,21 @@ Attributions/References
         git clone https://github.com/mn263/home-automation.git
 
 
-2.  Pre-requisites: install npm, gulp. 
+2.  Pre-requisites: install npm, Grunt. 
 
-    [Instructions on starting with Gulp.](https://gulpjs.org/getting-started.html)
-
-
-3.  Install gulp-serve
-
-        npm install gulp-serve
-
-    [Gulp-serve documentation.](https://www.npmjs.com/package/gulp-serve)
+    [Instructions on starting with Grunt.](https://gruntjs.com/getting-started)
 
 
-4.  To preview run the gulp server from the top-level project folder:
+3.  Install grunt-serve
 
-        gulp serve
+        npm install grunt-serve --save-dev
+
+    [grunt-serve documentation.](https://www.npmjs.com/package/grunt-serve)
+
+
+4.  To preview run the grunt server from the top-level project folder:
+
+        grunt serve
 
 
 ## Requirements Completed
