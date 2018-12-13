@@ -14,7 +14,7 @@ House SVG:
 
 Code Architecture Inspiration:
 [Just-Another-Automated-Home](https://github.com/marybeshaw/Just-Another-Automated-Home)
-Though I've made many changes to the format and structure of the "APIs", the controllers, and coding standards, the concept of the basic interactions between the API and controllers came from Just-Another-Automated-Home.
+Though I've made many changes to the format and structure of the "APIs", the controllers, and coding standards, the concept of the basic interactions between the API and controllers, along with large chunks of code that were re-written or repurposed, came from Just-Another-Automated-Home.
 
 ## Setting up and Running
 
