@@ -1,6 +1,7 @@
 # JavaScript application simulating house automation
 
 [See working Example](https://mn263.github.io/home-automation/) 
+
 Interactions: 
 - Clicking on a room - Updates the room selector to the room that was clicked for quick management
 - Tempurature - Changes house SVG color to represent warm/cold temps
