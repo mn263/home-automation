@@ -1,8 +1,11 @@
 # JavaScript application simulating house automation
 
 Attributions/References
+House SVG:
 [Little_White_House_floor_plan.svg](https://en.m.wikipedia.org/wiki/File:Little_White_House_floor_plan.svg)
+Code Architecture Inspiration:
 [Just-Another-Automated-Home](https://github.com/marybeshaw/Just-Another-Automated-Home)
+Though I've made many changes to the format and structure of the "APIs", the controllers, and coding standards, the concept of the basic interactions between the API and controllers came from Just-Another-Automated-Home.
 
 ## Setting up and Running
 

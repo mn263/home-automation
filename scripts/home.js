@@ -36,9 +36,9 @@ $('#home-map').context.addEventListener('load', function () {
                 // indiviual features things like lamps, or specific curtains
                 let feature = features[featureIndex];
                 let svgElement = document.getElementById('home-map').contentDocument.getElementById('g-' + roomIndex);
-                if (feature['controller'] === ControlsEnum.Light) {
+                if (feature.controller === ControlsEnum.Light) {
                     updateLight(svgElement, feature.status);
-                } else if (feature['controller'] === ControlsEnum.Curtain) {
+                } else if (feature.controller === ControlsEnum.Curtain) {
                     updateCurtains(svgElement, feature.status);
                 }
             }
