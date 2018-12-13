@@ -1,5 +1,4 @@
 {
-	"comment": "Home Description JSON. A static file for now; can be changed to a DB driven file in future. Supported Feature Data Types: Boolean, Integer",
 	"home": {
 		"name": "Just Another Home",
 		"features": {

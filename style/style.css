@@ -49,12 +49,14 @@ div.room h3 {
 	text-align: left;
 }
 
-div.feature input.boolean {
+div.feature input.checkbox {
 	clear: left;
 	float:left;
+	margin-top: 6px;
+	margin-right: 4px;
 }
 
-div.feature label.boolean {
+div.feature label.checkbox {
 	float:left;
 	padding-left: 5px;
 }	

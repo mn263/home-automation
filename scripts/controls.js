@@ -86,8 +86,10 @@ class Light {
 
 	getTemplate() {
 		let checked = this.light.status === LightValues.On ? ' checked="checked" ' : '';
-		return `<input type="checkbox" id="${this.elementId}" value="${this.light.status}" ${checked}/>
-			<label for="${this.elementId}">${this.light.name} - On</label>`;
+		return `
+			<input type="checkbox" id="${this.elementId}" value="${this.light.status}" ${checked}/>
+			<label for="${this.elementId}">${this.light.name} - On</label>
+		`;
 	};
 
 	getValue() {
@@ -131,8 +133,10 @@ class Curtain {
 
 	getTemplate() {
 		let checked = this.curtain.status === CurtainValues.Closed ? ' checked="checked" ' : '';
-		return `<input type="checkbox" id="${this.elementId}" class="boolean" value="${this.curtain.status}" ${checked}/>
-			<label for="${this.elementId}">${this.curtain.name} - Drawn</label>`;
+		return `
+			<input type="checkbox" id="${this.elementId}" class="checkbox" value="${this.curtain.status}" ${checked}/>
+			<label for="${this.elementId}">${this.curtain.name} - Drawn</label>
+		`;
 	};
 
 	getValue() {
@@ -172,10 +176,12 @@ class Temp {
 	};
 
 	getTemplate(feature) {
-		return `<label for="${this.elementId}" class="integer">
-			${feature.name}:<span id="${this.elementId}-temp" style="padding: 5px">${feature.status}&#8457; </span>
+		return `
+			<label for="${this.elementId}" class="integer">
+				${feature.name}:<span id="${this.elementId}-temp" style="padding: 5px">${feature.status}&#8457; </span>
 			</label>
-			<input type="range" class="integer" min="60" max="80" id="${this.elementId}" value="${feature.status}" />`;
+			<input type="range" class="integer" min="60" max="80" id="${this.elementId}" value="${feature.status}" />
+		`;
 	};
 
 	getValue() {
