@@ -6,17 +6,17 @@ Attributions/References
 
 ## Setting up and Running
 
-1.  Clone this repo: 
+1.  Clone repo: 
 
         git clone https://github.com/mn263/home-automation.git
 
 
-2.  Pre-requisites install npm, gulp. 
+2.  Pre-requisites: install npm, gulp. 
 
     [Instructions on starting with Gulp.](https://gulpjs.org/getting-started.html)
 
 
-3.  Install gulp-serve:
+3.  Install gulp-serve
 
         npm install gulp-serve
 
@@ -30,8 +30,7 @@ Attributions/References
 
 ## Requirements Completed
 
-A JavaScript application simulating house automation: pressing a
-button on a control panel would visually turn on a light, change the
+Pressing a button on a control panel would visually turn on a light, change the
 temperature or close the curtains. Some constraints:
 - the application must use jQuery
 - the components must have HTTP based "server" interaction (use a static file
@@ -61,6 +60,6 @@ When a room is selected the control calls the rooms/{roomId}.json "API" to build
 
 
 ## Example of adding to project
-If you wanted to add support for cieling fans then you would first need to add the control to controls.js then you would need to update the API and include and indicator that the controller to be used is "fans".
+If you wanted to add support for cieling fans then you would first need to add the control to controls.js then you would need to update the API and include the necessary information and an indicator that the feature is to be used by the "fans" controller.
 
-For an example to follow you can look at how the tempurature control is managed. First we created a Temp control and then added API support to house.json where we specify the house's tempurature and what control we want to use to display the temp.
+For an example to follow you can look at how the tempurature control is managed. First we created a Temp control and then added API support to house.json where we specify the house's tempurature and that the feature should be used by the 'temp' controller.
