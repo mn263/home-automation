@@ -101,7 +101,7 @@ class Light {
 
 	save() {
 		// call API to update room with the changes
-		$.post('API/homes/whitehouse/rooms/' + this.roomId + '.json', {
+		$.get('API/homes/whitehouse/rooms/' + this.roomId + '.json', {
 			light: this.room.name,
 			value: this.getValue()
 		}).done(function (data) {
@@ -146,7 +146,7 @@ class Curtain {
 
 	save() {
 		// call API to update room with the changes
-		$.post('API/homes/whitehouse/rooms/' + this.roomId + '.json', {
+		$.get('API/homes/whitehouse/rooms/' + this.roomId + '.json', {
 			curtain: this.room.name,
 			value: this.getValue()
 		}).done(function (data) {
@@ -194,7 +194,7 @@ class Temp {
 
 	save() {
 		// call API to update house temp
-		$.post('API/homes/whitehouse/house.json', {
+		$.get('API/homes/whitehouse/house.json', {
 			temp: this.getValue(),
 		}).done(function (data) {
 			if (data.success === false) {
