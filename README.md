@@ -3,8 +3,8 @@
 [See working Example](https://mn263.github.io/home-automation/) 
 
 Interactions: 
-- Clicking on a room - Updates the room selector to the room that was clicked for quick management
-- Tempurature - Changes house SVG color to represent warm/cold temps
+- Clicking on a room - Updates the room dropdown for quick management
+- Temperature - Changes house SVG color to represent warm/cold temps
 - Lights - Changes room colors from yellow to gray representing whether lights are on or not
 - Curtain - Changes room opacity indicating natual light being blocked or let in
 
@@ -61,7 +61,7 @@ New controls for features like cieling fans, sprinkler systems, etc. can be adde
 Depending on the new controls you've created you may need to update the "API" (JSON files under the API folder). For an example of this see 'Example of adding to project' section.
 
 To listen for changes made in the controls you can add logic to the 'handleControlChange' function in home.js.
-There you will have access to the controller where you can call 'getValue' to get the value of the change or you can compare typeof(controller) with ControlsEnum if you're only interested in listening to specific types of changes.
+There you will have access to the controller where you can call 'getValue' to get the value of the change or you can compare 'controller instanceof {controller_class}' if you're only interested in listening to changes from specific controller types.
 
 ## Control Panel Architecture
 
@@ -72,6 +72,6 @@ When a room is selected the control calls the rooms/{roomId}.json "API" to build
 
 
 ## Example of adding to project
-If you wanted to add support for cieling fans then you would first need to add the control to controls.js then you would need to update the API and include the necessary information and an indicator that the feature is to be used by the "fans" controller.
+If you wanted to add support for cieling fans then you would first need to add the control to controls.js then you would need to update the API and include the necessary information and an indicator that the feature is to be used by the "Fan" controller.
 
-For an example to follow you can look at how the tempurature control is managed. First we created a Temp control and then added API support to house.json where we specify the house's tempurature and that the feature should be used by the 'temp' controller.
+For an example to follow you can look at how the temperature control is managed. First we created a Temp control and then added API support to house.json where we specify the house's temperature and that the feature should be used by the 'Temp' controller.

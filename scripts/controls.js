@@ -162,12 +162,12 @@ class Curtain {
 }
 
 /**
- * An input slider for a house's tempurature
+ * An input slider for a house's temperature
  * 
  * @prop getTemplate - Returns HTML to display control
- * @prop getValue - Returns the tempurature of the house
+ * @prop getValue - Returns the temperature of the house
  * @prop updateHouse - Updates the background of the house SVG with red/blud to reflect warm/cold temps
- * @prop save - Saves the selected value for the house's tempurature
+ * @prop save - Saves the selected value for the house's temperature
  */
 class Temp {
 	constructor(elementId) {
