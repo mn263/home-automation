@@ -22,7 +22,7 @@ $.getScript("scripts/controls.js").done(function (script, textStatus) {
  * Once the House SVG has loaded we get the rooms in the house and
  * update the SVG colors to match the status of the lights/curtains
  * 
- * @listens Load - function is triggered when the house SVG loads
+ * @listens Load - addEventListener is triggered when the house SVG loads
  */
 $('#home-map').context.addEventListener('load', function () {
     if (!document.getElementById('home-map')) return;
@@ -49,7 +49,6 @@ $('#home-map').context.addEventListener('load', function () {
 /**
  * Fetches the house object from the 'API' and builds the control panel
  * 
- * Adds the controls to the container element which we listen to for events on any of the controls
  * When any control is updated we call handleControlChange - If you want to listen for any event that is we you'll add the logic
  * 
  * @listens input - triggered when a control with an 'input' element changes
@@ -102,7 +101,7 @@ function parseFeatureControls(featureList, parentID) {
  * 
  * @param {object} feature - API object driving the control. Example: {name: "Temperature", element-id: "home-map", controller: "temp", status: 68}
  * @param {string} elementId The ID that will be used as the HTML element's ID property
- * @param {string} roomId - Null unless control is specific to a room. Useful for room-specific controls (i.e., the light is in the kitchen)
+ * @param {string} roomId - Null unless control is specific to a room. Useful for room-specific controls (i.e., a light in the kitchen)
  * 
  * @returns {string} html - The HTML of the control that was created or an empty string in the case that a control was not created
  */
