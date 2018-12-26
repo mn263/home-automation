@@ -57,11 +57,11 @@ code serverside and is being viewed in 2 major browsers of your choice.
 
 ## Building on the project
 
-New controls for features like cieling fans, sprinkler systems, etc. can be added to the controls.js file.
+New controls for features like cieling fans, sprinkler systems, etc. should be added to the controls.js file and handled in the switch stament in the 'createControl' method.
 Depending on the new controls you've created you may need to update the "API" (JSON files under the API folder). For an example of this see 'Example of adding to project' section.
 
-To listen for changes made in the controls you can add logic to the 'handleControlChange' function in home.js.
-There you will have access to the controller where you can call 'getValue' to get the value of the change or you can compare 'controller instanceof {controller_class}' if you're only interested in listening to changes from specific controller types.
+To listen for changes made in the controls you can add logic to the 'listenForControlChanges' function in home.js or simply listen for the 'house-update' event where ever you want.
+
 
 ## Control Panel Architecture
 
@@ -72,6 +72,9 @@ When a room is selected the control calls the rooms/{roomId}.json "API" to build
 
 
 ## Example of adding to project
-If you wanted to add support for cieling fans then you would first need to add the control to controls.js then you would need to update the API and include the necessary information and an indicator that the feature is to be used by the "Fan" controller.
+If you wanted to add support for cieling fans then you would do the following:
+- Add the control to controls.js
+- Add the control reference to the 'createControl' method
+- Update the API and include the data to be used by the "Fan" controller.
 
-For an example to follow you can look at how the temperature control is managed. First we created a Temp control and then added API support to house.json where we specify the house's temperature and that the feature should be used by the 'Temp' controller.
+For an example to follow you can look at how the temperature control is managed. First we created a Temperature control, added it to the 'createControl' switch statment, and then added API support to house.json where we specify the house's temperature and that the feature should be used by the 'temp' controller.

@@ -15,6 +15,8 @@ module.exports = function (grunt) {
   });
   // runn a local file server
   grunt.loadNpmTasks('grunt-serve');
+  // remove all console.log instances from project
+  grunt.loadNpmTasks("grunt-remove-logging");
 
   // Default task(s).
   grunt.registerTask('default', []);

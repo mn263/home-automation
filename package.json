@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "grunt": "^1.0.3"
+    "grunt": "^1.0.3",
+    "grunt-remove-logging": "^0.2.0"
   },
   "devDependencies": {
     "grunt-serve": "^0.1.6"
